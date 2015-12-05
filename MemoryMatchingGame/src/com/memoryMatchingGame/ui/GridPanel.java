@@ -12,10 +12,11 @@ public final class GridPanel extends JPanel {
     // public
     public GridPanel() {
         words = WordLibrary.getDefault();
-        addMouseListener(new MouseHandler());
         clock = new java.util.Timer();
         counter = new java.util.Timer();
+        addMouseListener(new MouseHandler());
     }
+   
 
     public void Init(int cellCount, int paringInterval) {
         gameOver = false;
@@ -56,7 +57,7 @@ public final class GridPanel extends JPanel {
                 cells[row][col] = new Cell(x, y, currWordSet.get(row * cellCount + col), "*******");
             }
         }
-
+        
         this.revalidate();
         this.repaint();
     }
@@ -100,15 +101,16 @@ public final class GridPanel extends JPanel {
     private final int CELL_WIDTH = 100;
     private final int CELL_HEIGHT = 30;
     private final Font font = new Font("Arial", Font.BOLD, 18);
-
     private final WordLibrary words;
+    private final java.util.Timer clock;
+
     private Cell[][] cells;
     private ArrayList<Integer> paringTube;
     private int cellCount;
     private int paringInterval;
     private int paredCount;
     private long elapsedTime;
-    private final java.util.Timer clock;
+
     private java.util.Timer counter;
     private TimerTask mainTimer;
     private TimerTask countDown;
@@ -196,7 +198,7 @@ public final class GridPanel extends JPanel {
             int mY = event.getY();
             int mCol = (mX - PAD) / CELL_WIDTH; // keep integer part
             int mRow = (mY - PAD) / CELL_HEIGHT;
-            if (mRow >= cellCount || mCol >= cellCount || mRow < 0 || mCol < 0) {
+            if (mRow >= cellCount || mCol >= cellCount || (mX - PAD) < 0 || (mY - PAD) < 0) {
                 return;
             }
             cells[mRow][mCol].TurnToFront(true);
@@ -224,18 +226,18 @@ public final class GridPanel extends JPanel {
 
         @Override
         public void mouseReleased(MouseEvent event) {
-            if (gameOver) {
-                return;
-            }
-            int mX = event.getX();
-            int mY = event.getY();
-            if (mX < PAD || mX >= PAD + cellCount * CELL_WIDTH) {
-                return;
-            }
-            if (mY < PAD || mY >= PAD + cellCount * CELL_HEIGHT) {
-                return;
-            }
-            repaint();
+//            if (gameOver) {
+//                return;
+//            }
+//            int mX = event.getX();
+//            int mY = event.getY();
+//            if (mX < PAD || mX >= PAD + cellCount * CELL_WIDTH) {
+//                return;
+//            }
+//            if (mY < PAD || mY >= PAD + cellCount * CELL_HEIGHT) {
+//                return;
+//            }
+//            
         }
 
         @Override
@@ -277,7 +279,7 @@ public final class GridPanel extends JPanel {
         public void run() {
             if (currentTime > 0) {
                 currentTime--;
-                System.out.println("CountDown: " + currentTime);
+                //System.out.println("CountDown: " + currentTime); // debug
             }
         }
 
