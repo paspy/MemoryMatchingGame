@@ -5,9 +5,8 @@
  */
 package com.memoryMatchingGame.ui;
 
-import com.memoryMatchingGame.lib.WordLibrary;
 import com.memoryMatchingGame.ui.GridPanel;
-import javax.swing.Timer;
+import java.awt.*;
 
 /**
  *
@@ -22,35 +21,46 @@ public class Main extends javax.swing.JFrame {
     final private int Grid4x4 = 4;
     final private int Grid6x6 = 6;
     final private int Grid8x8 = 8;
+    private final int PAD = 70;
+    private final int CELL_WIDTH = 100;
+    private final int CELL_HEIGHT = 30;
 
     // member variables
     private Difficulty difficulty;
+    private int paringInterval;
+    private GridPanel grid = new GridPanel(Grid4x4);
 
     // Main form construtor
-
     public Main() {
         initGame();
         initComponents();
+        setTitle("Final Project - Periodic Table Memory Matching Game");
     }
 
     // Game elements init
     private void initGame() {
+        this.add(grid, BorderLayout.WEST);
+        this.setLocation(Toolkit.getDefaultToolkit().getScreenSize().width / 3, Toolkit.getDefaultToolkit().getScreenSize().height / 3);
         difficulty = Difficulty.Easy;
+        paringInterval = 5;
         newGame(difficulty);
+        
     }
 
     private void newGame(Difficulty _currentDiff) {
-        switch(_currentDiff) {
+
+        switch (_currentDiff) {
             case Easy:
-                
+                grid.Init(Grid4x4, paringInterval);
                 break;
             case Moderate:
-                
-                 break;
+                grid.Init(Grid6x6, paringInterval);
+                break;
             case Difficult:
-                
+                grid.Init(Grid8x8, paringInterval);
                 break;
         }
+        this.pack();
 
     }
 
@@ -66,10 +76,14 @@ public class Main extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuNewGame = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        jMenuLevels = new javax.swing.JMenu();
         jRadioDiff1 = new javax.swing.JRadioButtonMenuItem();
         jRadioDiff2 = new javax.swing.JRadioButtonMenuItem();
         jRadioDiff3 = new javax.swing.JRadioButtonMenuItem();
+        jMenuTime = new javax.swing.JMenu();
+        jRadioButtonMenuFiveSeconds = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuThreeSeconds = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuOneSeconds = new javax.swing.JRadioButtonMenuItem();
         jMenuExit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -84,34 +98,63 @@ public class Main extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuNewGame);
 
-        jMenu2.setText("Mode");
+        jMenuLevels.setText("Levels");
 
         jRadioDiff1.setSelected(true);
-        jRadioDiff1.setText("4 x 4 grid (Easy)");
+        jRadioDiff1.setText("4 x 4 grid");
         jRadioDiff1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioDiff1ActionPerformed(evt);
             }
         });
-        jMenu2.add(jRadioDiff1);
+        jMenuLevels.add(jRadioDiff1);
 
-        jRadioDiff2.setText("6 x 6 grid (Moderate)");
+        jRadioDiff2.setText("6 x 6 grid");
         jRadioDiff2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioDiff2ActionPerformed(evt);
             }
         });
-        jMenu2.add(jRadioDiff2);
+        jMenuLevels.add(jRadioDiff2);
 
-        jRadioDiff3.setText("8 X 8 grid (Difficult)");
+        jRadioDiff3.setText("8 X 8 grid");
         jRadioDiff3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioDiff3ActionPerformed(evt);
             }
         });
-        jMenu2.add(jRadioDiff3);
+        jMenuLevels.add(jRadioDiff3);
 
-        jMenu1.add(jMenu2);
+        jMenu1.add(jMenuLevels);
+
+        jMenuTime.setText("Time");
+
+        jRadioButtonMenuFiveSeconds.setSelected(true);
+        jRadioButtonMenuFiveSeconds.setText("5 Seconds");
+        jRadioButtonMenuFiveSeconds.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuFiveSecondsActionPerformed(evt);
+            }
+        });
+        jMenuTime.add(jRadioButtonMenuFiveSeconds);
+
+        jRadioButtonMenuThreeSeconds.setText("3 Seconds");
+        jRadioButtonMenuThreeSeconds.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuThreeSecondsActionPerformed(evt);
+            }
+        });
+        jMenuTime.add(jRadioButtonMenuThreeSeconds);
+
+        jRadioButtonMenuOneSeconds.setText("1 Seconds");
+        jRadioButtonMenuOneSeconds.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuOneSecondsActionPerformed(evt);
+            }
+        });
+        jMenuTime.add(jRadioButtonMenuOneSeconds);
+
+        jMenu1.add(jMenuTime);
 
         jMenuExit.setText("Exit");
         jMenuExit.addActionListener(new java.awt.event.ActionListener() {
@@ -124,17 +167,6 @@ public class Main extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 640, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 459, Short.MAX_VALUE)
-        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -170,8 +202,32 @@ public class Main extends javax.swing.JFrame {
 
     private void jMenuNewGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuNewGameActionPerformed
         // TODO add your handling code here:
-        newGame(difficulty);
+        this.newGame(difficulty);
     }//GEN-LAST:event_jMenuNewGameActionPerformed
+
+    private void jRadioButtonMenuFiveSecondsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuFiveSecondsActionPerformed
+        // TODO add your handling code here:
+        paringInterval = 5;
+        this.jRadioButtonMenuFiveSeconds.setSelected(true);
+        this.jRadioButtonMenuThreeSeconds.setSelected(false);
+        this.jRadioButtonMenuOneSeconds.setSelected(false);
+    }//GEN-LAST:event_jRadioButtonMenuFiveSecondsActionPerformed
+
+    private void jRadioButtonMenuThreeSecondsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuThreeSecondsActionPerformed
+        // TODO add your handling code here:
+        paringInterval = 3;
+        this.jRadioButtonMenuFiveSeconds.setSelected(false);
+        this.jRadioButtonMenuThreeSeconds.setSelected(true);
+        this.jRadioButtonMenuOneSeconds.setSelected(false);
+    }//GEN-LAST:event_jRadioButtonMenuThreeSecondsActionPerformed
+
+    private void jRadioButtonMenuOneSecondsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuOneSecondsActionPerformed
+        // TODO add your handling code here:
+        paringInterval = 1;
+        this.jRadioButtonMenuFiveSeconds.setSelected(false);
+        this.jRadioButtonMenuThreeSeconds.setSelected(false);
+        this.jRadioButtonMenuOneSeconds.setSelected(true);
+    }//GEN-LAST:event_jRadioButtonMenuOneSecondsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -210,10 +266,14 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuExit;
+    private javax.swing.JMenu jMenuLevels;
     private javax.swing.JMenuItem jMenuNewGame;
+    private javax.swing.JMenu jMenuTime;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuFiveSeconds;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuOneSeconds;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuThreeSeconds;
     private javax.swing.JRadioButtonMenuItem jRadioDiff1;
     private javax.swing.JRadioButtonMenuItem jRadioDiff2;
     private javax.swing.JRadioButtonMenuItem jRadioDiff3;

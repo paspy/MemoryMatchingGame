@@ -83,5 +83,14 @@ public class StaticWordLibrary extends WordLibrary {
     public int getSize() {
         return WORD_LIST.length;
     }
+    
+    /**
+     *
+     * @return
+     */
+    @Override
+    public String[] getArr() {
+        return WORD_LIST;
+    }
 
 }

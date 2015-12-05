@@ -18,4 +18,5 @@ public abstract class WordLibrary {
     }
     public abstract String getWord(int idx);
     public abstract int getSize();
+    public abstract String[] getArr();
 }
