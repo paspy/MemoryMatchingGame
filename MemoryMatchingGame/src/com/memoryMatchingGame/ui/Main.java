@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package com.memoryMatchingGame.ui;
-
-import com.memoryMatchingGame.ui.GridPanel;
 import java.awt.*;
 
 /**
@@ -21,20 +19,19 @@ public class Main extends javax.swing.JFrame {
     final private int Grid4x4 = 4;
     final private int Grid6x6 = 6;
     final private int Grid8x8 = 8;
-    private final int PAD = 70;
-    private final int CELL_WIDTH = 100;
-    private final int CELL_HEIGHT = 30;
 
     // member variables
     private Difficulty difficulty;
     private int paringInterval;
-    private GridPanel grid = new GridPanel(Grid4x4);
+    private final GridPanel grid = new GridPanel();
 
     // Main form construtor
     public Main() {
         initGame();
         initComponents();
         setTitle("Final Project - Periodic Table Memory Matching Game");
+        this.setSize(new Dimension(400,65));
+        
     }
 
     // Game elements init
@@ -43,8 +40,6 @@ public class Main extends javax.swing.JFrame {
         this.setLocation(Toolkit.getDefaultToolkit().getScreenSize().width / 3, Toolkit.getDefaultToolkit().getScreenSize().height / 3);
         difficulty = Difficulty.Easy;
         paringInterval = 5;
-        newGame(difficulty);
-        
     }
 
     private void newGame(Difficulty _currentDiff) {
